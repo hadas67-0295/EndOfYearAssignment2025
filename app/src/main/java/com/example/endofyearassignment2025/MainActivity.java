@@ -1,6 +1,11 @@
 package com.example.endofyearassignment2025;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +14,12 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
+    EditText etUserName;
+    EditText etPassword;
+    Button btnLogin;
+
+    String[] arrayUserName = {"userName1","userName2","userName3"};
+    String[] arrayPassword = {"password1","password2","password3"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,5 +31,26 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        etUserName = findViewById(R.id.etUserName);
+        etPassword = findViewById(R.id.etPassword);
+        btnLogin = findViewById(R.id.btnLogin);
+
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                for(int i=0; i<arrayUserName.length; i++){
+                    if(arrayUserName[i]==etUserName.getText().toString()&&arrayPassword[i]==etPassword.getText().toString()){
+                        Toast.makeText(MainActivity.this,"Login successful",Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                    else{
+                        Toast.makeText(MainActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+
     }
 }
