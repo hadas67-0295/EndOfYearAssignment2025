@@ -7,4 +7,82 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity2">
 
+    <TextView
+        android:id="@+id/tvUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello User"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnGreaterThan"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnGreaterThan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="<"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/tvUserName"
+        app:layout_constraintBottom_toTopOf="@+id/btnEqual"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnShowScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show Score"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSmallerThan" />
+
+    <Button
+        android:id="@+id/btnEqual"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="="
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@id/tvNumberOfLeft"
+        app:layout_constraintEnd_toStartOf="@id/tvNumberOfRight"
+        app:layout_constraintBottom_toTopOf="@+id/btnSmallerThan"
+        app:layout_constraintTop_toBottomOf="@id/btnGreaterThan"
+        tools:layout_editor_absoluteX="162dp" />
+
+    <Button
+        android:id="@+id/btnSmallerThan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=">"
+        app:layout_constraintTop_toBottomOf="@id/btnEqual"
+        app:layout_constraintBottom_toTopOf="@id/btnShowScore"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="474dp" />
+
+    <TextView
+        android:id="@+id/tvNumberOfLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@id/btnSmallerThan"
+        app:layout_constraintTop_toBottomOf="@id/btnGreaterThan"
+        app:layout_constraintEnd_toStartOf="@+id/btnEqual"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="354dp" />
+
+    <TextView
+        android:id="@+id/tvNumberOfRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@id/btnSmallerThan"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnEqual"
+        app:layout_constraintTop_toBottomOf="@+id/btnGreaterThan" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
