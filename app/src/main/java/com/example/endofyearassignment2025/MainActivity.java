@@ -18,8 +18,8 @@ public class MainActivity extends AppCompatActivity {
     EditText etPassword;
     Button btnLogin;
 
-    String[] arrayUserName = {"userName1","userName2","userName3"};
-    String[] arrayPassword = {"password1","password2","password3"};
+    String[] arrayUserName = {"hadas","noa","lior"};
+    String[] arrayPassword = {"1234","5678","abcd"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 for(int i=0; i<arrayUserName.length; i++){
-                    if(arrayUserName[i]==etUserName.getText().toString()&&arrayPassword[i]==etPassword.getText().toString()){
+                    if(arrayUserName[i].equals(etUserName.getText().toString()) && arrayPassword[i].equals(etPassword.getText().toString()))
+                    {
                         Toast.makeText(MainActivity.this,"Login successful",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(MainActivity.this, MainActivity2.class);
                         startActivity(intent);
