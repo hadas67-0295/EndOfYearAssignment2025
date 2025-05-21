@@ -60,35 +60,6 @@ public class MainActivity2 extends AppCompatActivity {
         tvNumberOfLeft.setText((String.valueOf(currentQuestion.getLeftNumber())));
         tvNumberOfRight.setText(String.valueOf(currentQuestion.getRightNumber()));
 
-        btnShowScore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity2.this);
-                builder.setTitle("are you sure?");
-                builder.setMessage("this will save your score and reset the game");
-                builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        String[] motivationSentence={
-                                "good job", "you did well", "keep it up"
-                        };
-                        String randomMotivation = motivationSentence[new Random().nextInt(motivationSentence.length)];
-                        int precentScore = (score*100)/questionList.size();
-
-                        DatabaseGameResult databaseGameResult = new DatabaseGameResult(MainActivity2.this);
-                        databaseGameResult.insertResult(userName, precentScore, randomMotivation);
-
-                        Intent intent = new Intent(MainActivity2.this, MainActivity3.class);
-                        intent.putExtra("username", userName);
-                        startActivity(intent);
-                        finish();
-                    }
-                });
-                builder.setNegativeButton("cancel", null);
-                builder.show();
-
-            }
-        });
         btnGreaterThan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -156,13 +127,10 @@ public class MainActivity2 extends AppCompatActivity {
                 Question currentQuestion = questionList.get(currentQuestionIndex);
                 int left = currentQuestion.getLeftNumber();
                 int right = currentQuestion.getRightNumber();
-
                 if (left == right) {
                     score++;
                 }
-
                 currentQuestionIndex++;
-
                 if (currentQuestionIndex < questionList.size()) {
                     Question nextQuestion = questionList.get(currentQuestionIndex);
                     tvNumberOfLeft.setText(String.valueOf(nextQuestion.getLeftNumber()));
@@ -173,15 +141,42 @@ public class MainActivity2 extends AppCompatActivity {
                     builder.setMessage("You answered all the questions. Click 'Show Score' to continue.");
                     builder.setPositiveButton("OK", null);
                     builder.show();
-
                     btnGreaterThan.setEnabled(false);
                     btnSmallerThan.setEnabled(false);
                     btnEqual.setEnabled(false);
                 }
             }
         });
+        btnShowScore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity2.this);
+                builder.setTitle("are you sure?");
+                builder.setMessage("this will save your score and reset the game");
+                builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String[] motivationSentence={
+                                "good job", "you did well", "keep it up"
+                        };
+                        String randomMotivation = motivationSentence[new Random().nextInt(motivationSentence.length)];
+                        int precentScore = (score*100)/questionList.size();
 
-                }
+                        DatabaseGameResult databaseGameResult = new DatabaseGameResult(MainActivity2.this);
+                        databaseGameResult.insertResult(userName, precentScore, randomMotivation);
+
+                        Intent intent = new Intent(MainActivity2.this, MainActivity3.class);
+                        intent.putExtra("username", userName);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+                builder.setNegativeButton("cancel", null);
+                builder.show();
+
+            }
+        });
+    }
     public ArrayList<Question> populateQuestions(int numberOfQuestions){
         ArrayList<Question> arrList = new ArrayList<>();
         Random random = new Random();
