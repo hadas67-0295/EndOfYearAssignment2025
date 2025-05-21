@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class AdapterOfGame extends RecyclerView.Adapter<AdapterOfGame.GameViewHolder> {
-    private Context context;
+    Context context;
     private List<GameResult> gameResults;
 
     public AdapterOfGame(Context context, List<GameResult> gameResults) {
-        this.context = context;
         this.gameResults = gameResults;
+        this.context = context;
     }
 
     @Override
@@ -29,8 +29,8 @@ public class AdapterOfGame extends RecyclerView.Adapter<AdapterOfGame.GameViewHo
     public void onBindViewHolder(GameViewHolder holder, int position) {
         GameResult gameResult = gameResults.get(position);
         holder.usernameTextView.setText("Username: " + gameResult.getUsername());
-        holder.scoreTextView.setText(gameResult.getScore() + "%");
-        holder.motivationTextView.setText(gameResult.getMotivationSentence());
+        holder.scoreTextView.setText(gameResult.getPercent() + "%");
+        holder.motivationTextView.setText(gameResult.getMotivation());
     }
     @Override
     public int getItemCount() {
@@ -47,9 +47,5 @@ public class AdapterOfGame extends RecyclerView.Adapter<AdapterOfGame.GameViewHo
             scoreTextView = itemView.findViewById(R.id.tvScore);
             motivationTextView = itemView.findViewById(R.id.tvMotivation);
         }
-    }
-    public void updateGameResults(List<GameResult> newGameResults) {
-        this.gameResults = newGameResults;
-        notifyDataSetChanged();
     }
 }

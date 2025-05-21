@@ -64,10 +64,10 @@ public class MainActivity2 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Question currentQuestion = questionList.get(currentQuestionIndex);
-                int left = currentQuestion.getLeftNumber();
-                int right = currentQuestion.getRightNumber();
+                int leftNumber = currentQuestion.getLeftNumber();
+                int rightNumber = currentQuestion.getRightNumber();
 
-                if (left > right) {
+                if (leftNumber > rightNumber) {
                     score++;
                 }
 
@@ -95,10 +95,10 @@ public class MainActivity2 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Question currentQuestion = questionList.get(currentQuestionIndex);
-                int left = currentQuestion.getLeftNumber();
-                int right = currentQuestion.getRightNumber();
+                int leftNumber = currentQuestion.getLeftNumber();
+                int rightNumber = currentQuestion.getRightNumber();
 
-                if (left < right) {
+                if (leftNumber < rightNumber) {
                     score++;
                 }
 
@@ -125,9 +125,9 @@ public class MainActivity2 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Question currentQuestion = questionList.get(currentQuestionIndex);
-                int left = currentQuestion.getLeftNumber();
-                int right = currentQuestion.getRightNumber();
-                if (left == right) {
+                int leftNumber = currentQuestion.getLeftNumber();
+                int rightNumber = currentQuestion.getRightNumber();
+                if (leftNumber == rightNumber) {
                     score++;
                 }
                 currentQuestionIndex++;
@@ -162,8 +162,9 @@ public class MainActivity2 extends AppCompatActivity {
                         String randomMotivation = motivationSentence[new Random().nextInt(motivationSentence.length)];
                         int precentScore = (score*100)/questionList.size();
 
-                        DatabaseGameResult databaseGameResult = new DatabaseGameResult(MainActivity2.this);
-                        databaseGameResult.insertResult(userName, precentScore, randomMotivation);
+                        GameResultDatabase gameResultDatabase = GameResultDatabase.getInstance(MainActivity2.this);
+                        GameResult gameResult = new GameResult(userName,precentScore,randomMotivation);
+                        gameResultDatabase.gameResultDao().insert(gameResult);
 
                         Intent intent = new Intent(MainActivity2.this, MainActivity3.class);
                         intent.putExtra("username", userName);

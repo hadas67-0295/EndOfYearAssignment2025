@@ -34,80 +34,24 @@ public class MainActivity3 extends AppCompatActivity {
         userName = getIntent().getStringExtra("username");
 
         recyclerViewGame.setLayoutManager(new LinearLayoutManager(this));
-        gameAdapter = new AdapterOfGame(this, new ArrayList<GameResult>());
+
+        GameResultDatabase databaseGameResult = GameResultDatabase.getInstance(MainActivity3.this);
+        List<GameResult> gameResults =databaseGameResult.gameResultDao().getAllResults();
+
+        AdapterOfGame gameAdapter = new AdapterOfGame(MainActivity3.this ,new ArrayList<>(gameResults));
         recyclerViewGame.setAdapter(gameAdapter);
-
-        DatabaseGameResult databaseGameResult= new DatabaseGameResult(this);
-        Cursor cursor = databaseGameResult.getAllResults();
-
-        if (cursor != null) {
-            // השגת אינדקסים של העמודות
-            int usernameIndex = cursor.getColumnIndex("username");
-            int scoreIndex = cursor.getColumnIndex("score");
-
-            // בדיקה שהאינדקסים נכונים – אם אחד מהם שווה ל־-1, מדובר בטעות במסד הנתונים
-            if (usernameIndex == -1 || scoreIndex == -1) {
-                // ניתן להוסיף טיפול מתאים, למשל, להציג הודעת שגיאה או ללוג
-                cursor.close();
-                return;
-            }
-
-            while (cursor.moveToNext()) {
-                String resultUsername = cursor.getString(usernameIndex);
-                // מומלץ לבדוק גם null
-                if (resultUsername != null && resultUsername.equals(userName)) {
-                    int score = cursor.getInt(scoreIndex);
-                    tvUserName.setText("Current username: " + resultUsername);
-                    tvScoreShow.setText("Current score: " + score + "%");
-                    break; // מציגים את התוצאה הראשונה שנמצאה
-                }
-            }
-            cursor.close();
-        }
-
-        displayUserResults();
 
         btnBackHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity3.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                Intent intent = new Intent(MainActivity3.this, MainActivity2.class);
+                intent.putExtra("username",userName);
                 startActivity(intent);
                 finish();
             }
         });
+
+
     }
 
-    private void displayUserResults() {
-        DatabaseGameResult db = new DatabaseGameResult(this);
-        Cursor cursor = db.getAllResults();
-
-        List<GameResult> userGameResults = new ArrayList<>();
-
-        if (cursor != null) {
-            // קבלת אינדקסים של העמודות, ובדיקה שהם חוקיים.
-            int usernameIndex = cursor.getColumnIndex("username");
-            int scoreIndex = cursor.getColumnIndex("score");
-            int motivationIndex = cursor.getColumnIndex("motivation");
-
-            if (usernameIndex == -1 || scoreIndex == -1 || motivationIndex == -1) {
-                // טיפול במקרה של בעיה - לדוגמה, לוג או הודעה מתאימה.
-                cursor.close();
-                return;
-            }
-
-            while (cursor.moveToNext()) {
-                String resultUsername = cursor.getString(usernameIndex);
-                if (resultUsername != null && resultUsername.equals(userName)) {
-                    int score = cursor.getInt(scoreIndex);
-                    String motivation = cursor.getString(motivationIndex);
-
-                    userGameResults.add(new GameResult(resultUsername, score, motivation));
-                }
-            }
-            cursor.close();
-        }
-        // עדכון ה־Adapter עם הרשימה החדשה
-        gameAdapter.updateGameResults(userGameResults);
-    }
 }
