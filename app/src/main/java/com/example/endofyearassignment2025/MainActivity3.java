@@ -41,17 +41,31 @@ public class MainActivity3 extends AppCompatActivity {
         Cursor cursor = databaseGameResult.getAllResults();
 
         if (cursor != null) {
+            // השגת אינדקסים של העמודות
+            int usernameIndex = cursor.getColumnIndex("username");
+            int scoreIndex = cursor.getColumnIndex("score");
+
+            // בדיקה שהאינדקסים נכונים – אם אחד מהם שווה ל־-1, מדובר בטעות במסד הנתונים
+            if (usernameIndex == -1 || scoreIndex == -1) {
+                // ניתן להוסיף טיפול מתאים, למשל, להציג הודעת שגיאה או ללוג
+                cursor.close();
+                return;
+            }
+
             while (cursor.moveToNext()) {
-                String resultUsername = cursor.getString(cursor.getColumnIndex("username"));
-                if (resultUsername.equals(userName)) {
-                    int score = cursor.getInt(cursor.getColumnIndex("score"));
+                String resultUsername = cursor.getString(usernameIndex);
+                // מומלץ לבדוק גם null
+                if (resultUsername != null && resultUsername.equals(userName)) {
+                    int score = cursor.getInt(scoreIndex);
                     tvUserName.setText("Current username: " + resultUsername);
                     tvScoreShow.setText("Current score: " + score + "%");
-                    break; // Only show the first/latest match
+                    break; // מציגים את התוצאה הראשונה שנמצאה
                 }
             }
+            cursor.close();
         }
-        displayLast10Games();
+
+        displayUserResults();
 
         btnBackHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,23 +78,36 @@ public class MainActivity3 extends AppCompatActivity {
         });
     }
 
-    private void displayLast10Games() {
+    private void displayUserResults() {
         DatabaseGameResult db = new DatabaseGameResult(this);
         Cursor cursor = db.getAllResults();
 
-        List<GameResult> gameResults = new ArrayList<GameResult>();
-        int count = 0;
+        List<GameResult> userGameResults = new ArrayList<>();
 
         if (cursor != null) {
-            while (cursor.moveToNext() && count < 10) {
-                String resultUsername = cursor.getString(cursor.getColumnIndex("username"));
-                int score = cursor.getInt(cursor.getColumnIndex("score"));
-                String motivation = cursor.getString(cursor.getColumnIndex("motivation"));
+            // קבלת אינדקסים של העמודות, ובדיקה שהם חוקיים.
+            int usernameIndex = cursor.getColumnIndex("username");
+            int scoreIndex = cursor.getColumnIndex("score");
+            int motivationIndex = cursor.getColumnIndex("motivation");
 
-                gameResults.add(new GameResult(resultUsername, score, motivation));
-                count++;
+            if (usernameIndex == -1 || scoreIndex == -1 || motivationIndex == -1) {
+                // טיפול במקרה של בעיה - לדוגמה, לוג או הודעה מתאימה.
+                cursor.close();
+                return;
             }
-            gameAdapter.updateGameResults(gameResults); // Refresh adapter data
+
+            while (cursor.moveToNext()) {
+                String resultUsername = cursor.getString(usernameIndex);
+                if (resultUsername != null && resultUsername.equals(userName)) {
+                    int score = cursor.getInt(scoreIndex);
+                    String motivation = cursor.getString(motivationIndex);
+
+                    userGameResults.add(new GameResult(resultUsername, score, motivation));
+                }
+            }
+            cursor.close();
         }
+        // עדכון ה־Adapter עם הרשימה החדשה
+        gameAdapter.updateGameResults(userGameResults);
     }
 }
