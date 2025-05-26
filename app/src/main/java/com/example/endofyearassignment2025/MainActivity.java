@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra("userName", etUserName.getText().toString().trim());
                         startActivity(intent);
                         Toast.makeText(MainActivity.this,"Login successful",Toast.LENGTH_SHORT).show();
-                        startActivity(intent);
                     }
                 }
                 if(!isValidUser){
