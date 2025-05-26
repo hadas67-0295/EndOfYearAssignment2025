@@ -45,10 +45,11 @@ public class MainActivity extends AppCompatActivity {
                     if(arrayUserName[i].equals(etUserName.getText().toString()) && arrayPassword[i].equals(etPassword.getText().toString()))
                     {
                         isValidUser = true;
+                        Toast.makeText(MainActivity.this,"Login successful",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(MainActivity.this, MainActivity2.class);
                         intent.putExtra("userName", etUserName.getText().toString().trim());
                         startActivity(intent);
-                        Toast.makeText(MainActivity.this,"Login successful",Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                 }
                 if(!isValidUser){
