@@ -45,14 +45,11 @@ public class MainActivity extends AppCompatActivity {
                     if(arrayUserName[i].equals(etUserName.getText().toString()) && arrayPassword[i].equals(etPassword.getText().toString()))
                     {
                         isValidUser = true;
-                        SharedPreferences sharedPreferences = getSharedPreferences("UserData",MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("username",etUserName.getText().toString());
-                        editor.apply();
-                        Toast.makeText(MainActivity.this,"Login successful",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+                        intent.putExtra("userName", etUserName.getText().toString().trim());
                         startActivity(intent);
-                        finish();
+                        Toast.makeText(MainActivity.this,"Login successful",Toast.LENGTH_SHORT).show();
+                        startActivity(intent);
                     }
                 }
                 if(!isValidUser){

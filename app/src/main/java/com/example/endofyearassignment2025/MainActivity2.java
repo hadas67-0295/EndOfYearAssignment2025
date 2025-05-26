@@ -53,8 +53,7 @@ public class MainActivity2 extends AppCompatActivity {
         btnEqual = findViewById(R.id.btnEqual);
         btnShowScore = findViewById(R.id.btnShowScore);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("UserData",MODE_PRIVATE);
-        userName = sharedPreferences.getString("username","GuestName");
+        userName=getIntent().getStringExtra("userName");
         tvUserName.setText("Hello " + userName);
 
         questionList = populateQuestions(7);

@@ -31,7 +31,7 @@ public class MainActivity3 extends AppCompatActivity {
         recyclerViewGame = findViewById(R.id.recyclerViewGame);
         btnBackHome = findViewById(R.id.btnBackHome);
 
-        userName = getIntent().getStringExtra("username");
+        userName = getIntent().getStringExtra("userName");
 
         recyclerViewGame.setLayoutManager(new LinearLayoutManager(this));
 
