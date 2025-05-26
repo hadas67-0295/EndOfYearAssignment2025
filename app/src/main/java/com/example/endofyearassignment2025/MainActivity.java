@@ -1,6 +1,7 @@
 package com.example.endofyearassignment2025;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     EditText etUserName;
     EditText etPassword;
     Button btnLogin;
-
+    //רשימה של שמות משתמש וסיסמאות לבדיקה
     String[] arrayUserName = {"hadas","noa","lior"};
     String[] arrayPassword = {"1234","5678","abcd"};
 
@@ -38,18 +39,24 @@ public class MainActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                boolean isValidUser = false;
+                //בדיקת התאמת שם המשתמש וסיסמה
                 for(int i=0; i<arrayUserName.length; i++){
                     if(arrayUserName[i].equals(etUserName.getText().toString()) && arrayPassword[i].equals(etPassword.getText().toString()))
                     {
+                        isValidUser = true;
+                        SharedPreferences sharedPreferences = getSharedPreferences("UserData",MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("username",etUserName.getText().toString());
+                        editor.apply();
                         Toast.makeText(MainActivity.this,"Login successful",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(MainActivity.this, MainActivity2.class);
-                        intent.putExtra("userName", etUserName.getText().toString());
                         startActivity(intent);
                         finish();
                     }
-                    else{
+                }
+                if(!isValidUser){
                         Toast.makeText(MainActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
-                    }
                 }
             }
         });
